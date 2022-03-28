@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ProAutomatas/static/css/main.a2f9a89b.css",
+    "main.js": "/ProAutomatas/static/js/main.b5bb6ad4.js",
+    "index.html": "/ProAutomatas/index.html",
+    "main.a2f9a89b.css.map": "/ProAutomatas/static/css/main.a2f9a89b.css.map",
+    "main.b5bb6ad4.js.map": "/ProAutomatas/static/js/main.b5bb6ad4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a2f9a89b.css",
+    "static/js/main.b5bb6ad4.js"
+  ]
+}
