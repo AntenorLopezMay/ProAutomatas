@@ -9,7 +9,7 @@ export const Expreciones = [
       {
             id: 2,
             name: 'Aritmeticos',
-            regExp: /(^\+$)|(^-$)|(^\*$)|(^%$)|(^\/$)/g,
+            regExp: /(^\+$)|(^\-$)|(^\*$)|(^%$)|(^\/$)/g,
             token: 'OA',
             cont: 0
       },
@@ -51,7 +51,7 @@ export const Expreciones = [
       {
             id: 8,
             name: 'id',
-            regExp: /^A{2}R\,[-#@][1-9]+$/g,
+            regExp: /^A{2}R\,[ -| @ | # ][1-9]+$/g,
             token: 'VAR',
             cont: 0
       },

@@ -12,8 +12,6 @@ const errorTablesDataInitial = [{
       descripcion: '---'
 }]
 
-
-
 let cont = 0;
 
 export const Lexemas = (prog) => {
@@ -73,8 +71,6 @@ export const Lexemas = (prog) => {
       const tablaError = errorTablesData;
       return { symbolTableData, tokens, tablaError };
 }
-
-
 const addsymbolTableData = (lexema, expre, symbolTableData, type) => {
       let tokens = '';
       if (symbolTableData.some(x => x.lexema === lexema)) {
@@ -92,8 +88,8 @@ const addsymbolTableData = (lexema, expre, symbolTableData, type) => {
       return tokens;
 
 }
-
 const adderrorTablesData = (lexema, expre, errorTablesData, prog) => {
+
       let tokens = '';
       let lineasErr = '';
       if (errorTablesData.some(x => x.lexema === lexema)) {
@@ -116,7 +112,6 @@ const adderrorTablesData = (lexema, expre, errorTablesData, prog) => {
 
       return { tokens, lineasErr };
 }
-
 const buscarError = (lexema, prog) => {
 
       let lineas = '';
@@ -143,15 +138,15 @@ const buscarError = (lexema, prog) => {
 }
 const errorSemantico = (errorTablesData, symbolTableData, prog) => {
       let expr = Expreciones.find(x => x.id === 8);
+      let erroL = Expreciones.find(x => x.id === 11);
       let cont = 0;
       symbolTableData.forEach(data => {
-            if (data.lexema.match(expr.regExp)) {
+            if (data.lexema.match(expr.regExp) !== null) {
                   if (data.typeData === '---') {
-                        // console.warn('Error ===> ', data.lexema);
-                        cont++;
+                        erroL.cont = erroL.cont + 1;
                         let lin = buscarError(data.lexema, prog);
                         errorTablesData.push({
-                              tokenError: 'ERSem' + cont,
+                              tokenError: 'ERL' + erroL.cont,
                               lexema: data.lexema,
                               linea: lin,
                               descripcion: 'Variable indefinida'
@@ -161,10 +156,10 @@ const errorSemantico = (errorTablesData, symbolTableData, prog) => {
       });
       return cont;
 }
-
 const errorindefinido = (errorTablesData, symbolTableData, prog, errorCont) => {
       let expr = Expreciones.find(x => x.id === 8);
       let asig = Expreciones.find(x => x.id === 4);
+      let num = Expreciones.find(x => x.id === 6);
       const arryProg = prog.split("\n");
       let ban = false;
       let banError = false;
@@ -172,28 +167,43 @@ const errorindefinido = (errorTablesData, symbolTableData, prog, errorCont) => {
       let contl = 0;
       arryProg.forEach(data => {
             const arryLine = data.split(" ");
+            let op = validarLinea(arryLine, asig);
             ban = false;
             banError = false;
             contl++;
             arryLine.forEach(lexema => {
-                  if (lexema !== "") {
-                        if (lexema.match(expr.regExp) != null) {
+                  if (lexema !== "" && op === true) {
+                        if (lexema.match(expr.regExp) !== null || lexema.match(num.regExp) !== null) {
                               let tipo = symbolTableData.find(x => x.lexema === lexema);
                               if (tipo.typeData !== '---' && ban === false) {
                                     // console.log(tipo.typeData, '===> ', lexema);
                                     typeData = tipo.typeData;
                                     ban = true;
                               } else {
-                                    if (typeData !== tipo.typeData && tipo.typeData !== '---' && banError === false) {
-                                          console.log('Error :', tipo.typeData, '===> ', lexema);
-                                          banError = true;
-                                          errorCont++;
-                                          errorTablesData.push({
-                                                tokenError: 'ERSem' + errorCont,
-                                                lexema: lexema,
-                                                linea: `[ ${contl} ]`,
-                                                descripcion: `Incompatiblidad de tipos ${typeData}`
-                                          });
+                                    if ((typeData === 'eocaracter#' || typeData === 'uientero#') && tipo.typeData !== '---' && banError === false) {
+                                          if (tipo.typeData === 'oacadena#') {
+                                                banError = true;
+                                                errorCont++;
+                                                errorTablesData.push({
+                                                      tokenError: 'ERSem' + errorCont,
+                                                      lexema: lexema,
+                                                      linea: `[ ${contl} ]`,
+                                                      descripcion: `Incompatiblidad de tipos ${typeData}`
+                                                });
+                                          }
+                                    } else {
+                                          if (typeData === 'oacadena#' && banError === false) {
+                                                if (tipo.typeData !== 'oacadena#' || lexema.match(num.regExp) !== null) {
+                                                      banError = true;
+                                                      errorCont++;
+                                                      errorTablesData.push({
+                                                            tokenError: 'ERSem' + errorCont,
+                                                            lexema: lexema,
+                                                            linea: `[ ${contl} ]`,
+                                                            descripcion: `Incompatiblidad de tipos ${typeData}`
+                                                      });
+                                                }
+                                          }
                                     }
                               }
                         }
@@ -201,4 +211,15 @@ const errorindefinido = (errorTablesData, symbolTableData, prog, errorCont) => {
                   }
             });
       });
+}
+
+const validarLinea = (linea, sig) => {
+      let resp = false;
+      linea.forEach(lexema => {
+            if (lexema.match(sig.regExp) !== null) {
+                  resp = true;
+                  return resp;
+            }
+      })
+      return resp;
 }

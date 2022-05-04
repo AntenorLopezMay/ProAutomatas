@@ -4,6 +4,7 @@ import { TableSimbolos } from "./components/TableSimbolos";
 import { TextArea } from "./components/TextArea";
 import { TxtTokens } from "./components/TxtTokens";
 import { Lexemas } from "./js/Lexemas";
+import { Triplos } from "./js/Triplos";
 
 export const AutomatasApp = () => {
       const categoriesInitial = [{
@@ -16,8 +17,13 @@ export const AutomatasApp = () => {
       const [symbolTableData, setSymbolTableData] = useState(categoriesInitial);
       const [tokens, setTokens] = useState('');
       const [errorTable, setErrorTable] = useState([]);
+
+      const [triplos, setTriplos] = useState([]);
       useEffect(() => {
             const { symbolTableData: data, tokens, tablaError } = Lexemas(programa);
+            let triplos = Triplos(programa);
+            console.log(triplos);
+            setTriplos(triplos);
             setSymbolTableData(data);
             setTokens(tokens);
             setErrorTable(tablaError);
@@ -42,6 +48,16 @@ export const AutomatasApp = () => {
             a.download = filname;
             a.click();
       }
+      const GenerarTablTrip = () => {
+            let triploStr = '';
+            triploStr = triplos.map((data, index) => {
+                  if (data.operador !== '---') {
+                        return `${index}        ${data.operador}        ${data.datoObj}        ${data.DatosFuente}\n`
+                  }
+            })
+            const Sim = new Blob([triploStr], { type: "text/plain" });
+            downloadFile(Sim, "Triplo.txt");
+      }
 
 
       return (
@@ -58,6 +74,8 @@ export const AutomatasApp = () => {
                         <div>
                               <button type="button" className="col btn btn-secondary btn-sm" onClick={GenerarPrograma}> Generar Programa</button>
                               <button type="button" className="col btn btn-secondary btn-sm" onClick={() => GenerarTablToken()}>Generar Tabla de token</button>
+                              <button type="button" className="row btn btn-secondary btn-sm" onClick={() => GenerarTablTrip()}>Generar Tabla de triplos</button>
+
                         </div>
                   </div>
 
@@ -98,7 +116,9 @@ export const AutomatasApp = () => {
                                     </tbody>
                               </table>
                         </div>
+
                   </div>
+
 
 
             </div>
