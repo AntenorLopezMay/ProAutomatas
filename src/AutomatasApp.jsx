@@ -22,7 +22,6 @@ export const AutomatasApp = () => {
       useEffect(() => {
             const { symbolTableData: data, tokens, tablaError } = Lexemas(programa);
             let triplos = Triplos(programa);
-            console.log(triplos);
             setTriplos(triplos);
             setSymbolTableData(data);
             setTokens(tokens);
