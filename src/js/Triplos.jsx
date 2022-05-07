@@ -20,6 +20,7 @@ let OpAnd = false;
 let banderaIf = false;
 let inicioIf = 0;
 let finIf = 0;
+let ifElse = false;
 export const Triplos = (prog) => {
 
       dataTableTriplos = [{
@@ -30,7 +31,7 @@ export const Triplos = (prog) => {
       }]
       const Prog = prog.split("\n");
       // validamos si el programa cuanta con un else debuele un boolean 
-      let ifElse = validarIfElse(Prog);
+      ifElse = validarIfElse(Prog);
       console.log(ifElse);
       Prog.forEach(data => {
             const arryLine = data.split(" ");
@@ -368,13 +369,26 @@ const agregarNoLi = () => {
                         if (dataTableTriplos[i].DatosFuente === 'TRUE') {
                               dataTableTriplos[i].operador = inicioIf;
                         } else {
-                              if (dataTableTriplos[i].DatosFuente === 'FALSE') {
-                                    let f = i + 1;
-                                    if (inicioIf === f) {
-                                          dataTableTriplos[i].operador = finIf;
-                                    } else {
-                                          let s = i + 1;
-                                          dataTableTriplos[i].operador = s;
+
+                              if (ifElse) {
+                                    if (dataTableTriplos[i].DatosFuente === 'FALSE') {
+                                          let f = i + 1;
+                                          if (inicioIf === f) {
+                                                dataTableTriplos[i].operador = finIf + 1;
+                                          } else {
+                                                let s = i + 1;
+                                                dataTableTriplos[i].operador = s;
+                                          }
+                                    }
+                              } else {
+                                    if (dataTableTriplos[i].DatosFuente === 'FALSE') {
+                                          let f = i + 1;
+                                          if (inicioIf === f) {
+                                                dataTableTriplos[i].operador = finIf;
+                                          } else {
+                                                let s = i + 1;
+                                                dataTableTriplos[i].operador = s;
+                                          }
                                     }
                               }
                         }
@@ -384,8 +398,14 @@ const agregarNoLi = () => {
                                     let f = i + 2;
                                     dataTableTriplos[i].operador = f;
                               } else {
-                                    if (dataTableTriplos[i].DatosFuente === 'FALSE') {
-                                          dataTableTriplos[i].operador = finIf;
+                                    if (ifElse) {
+                                          if (dataTableTriplos[i].DatosFuente === 'FALSE') {
+                                                dataTableTriplos[i].operador = finIf + 1;
+                                          }
+                                    } else {
+                                          if (dataTableTriplos[i].DatosFuente === 'FALSE') {
+                                                dataTableTriplos[i].operador = finIf;
+                                          }
                                     }
                               }
                         } else {
@@ -393,8 +413,14 @@ const agregarNoLi = () => {
                                     if (dataTableTriplos[i].DatosFuente === 'TRUE') {
                                           dataTableTriplos[i].operador = inicioIf;
                                     } else {
-                                          if (dataTableTriplos[i].DatosFuente === 'FALSE') {
-                                                dataTableTriplos[i].operador = finIf;
+                                          if (ifElse) {
+                                                if (dataTableTriplos[i].DatosFuente === 'FALSE') {
+                                                      dataTableTriplos[i].operador = finIf + 1;
+                                                }
+                                          } else {
+                                                if (dataTableTriplos[i].DatosFuente === 'FALSE') {
+                                                      dataTableTriplos[i].operador = finIf;
+                                                }
                                           }
                                     }
 
@@ -402,10 +428,17 @@ const agregarNoLi = () => {
                         }
                   }
             }
+            if (ifElse) {
 
-            if (dataTableTriplos[i].operador === 'JUM') {
-                  dataTableTriplos[i].DatosFuente = contLi;
+                  if (dataTableTriplos[i].operador === 'JUM') {
+                        dataTableTriplos[i].DatosFuente = contLi + 1;
+                  }
+            } else {
+                  if (dataTableTriplos[i].operador === 'JUM') {
+                        dataTableTriplos[i].DatosFuente = contLi;
+                  }
             }
+
 
       }
 }
