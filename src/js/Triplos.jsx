@@ -429,7 +429,6 @@ const agregarNoLi = () => {
                   }
             }
             if (ifElse) {
-
                   if (dataTableTriplos[i].operador === 'JUM') {
                         dataTableTriplos[i].DatosFuente = contLi + 1;
                   }
