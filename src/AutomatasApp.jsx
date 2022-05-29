@@ -5,6 +5,7 @@ import { TextArea } from "./components/TextArea";
 import { TxtTokens } from "./components/TxtTokens";
 import { Lexemas } from "./js/Lexemas";
 import { Triplos } from "./js/Triplos";
+import { codigoEnsamblador } from "./js/CodEnsam";
 
 export const AutomatasApp = () => {
       const categoriesInitial = [{
@@ -17,6 +18,7 @@ export const AutomatasApp = () => {
       const [symbolTableData, setSymbolTableData] = useState(categoriesInitial);
       const [tokens, setTokens] = useState('');
       const [errorTable, setErrorTable] = useState([]);
+      const [codeEnsam, setCodeEnsam] = useState([])
 
       const [triplos, setTriplos] = useState([]);
       useEffect(() => {
@@ -26,6 +28,8 @@ export const AutomatasApp = () => {
             setSymbolTableData(data);
             setTokens(tokens);
             setErrorTable(tablaError);
+            let codeEnsam = codigoEnsamblador(triplos);
+            setCodeEnsam(codeEnsam);
             console.log(tablaError);
       }, [programa]);
 

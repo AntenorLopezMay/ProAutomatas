@@ -50,7 +50,7 @@ export const Triplos = (prog) => {
                               banderaIf = true;
                         } else {
                               if (validarElselinea(arryLine)) {
-                                    AgragrTriplo('JUM', '', '');
+                                    AgragrTriplo('JMP', '', '');
                               }
                         }
                   }
@@ -75,7 +75,8 @@ export const Triplos = (prog) => {
 
 
 
-      console.table(dataTableTriplos);
+      // console.table(dataTableTriplos);
+      AgragrTriplo('', '', '');
       contLi = 0;
       return dataTableTriplos;
 }
@@ -400,7 +401,7 @@ const agregarNoLi = () => {
                               } else {
                                     if (ifElse) {
                                           if (dataTableTriplos[i].DatosFuente === 'FALSE') {
-                                                dataTableTriplos[i].operador = finIf + 1;
+                                                dataTableTriplos[i].operador = finIf;
                                           }
                                     } else {
                                           if (dataTableTriplos[i].DatosFuente === 'FALSE') {
@@ -429,11 +430,11 @@ const agregarNoLi = () => {
                   }
             }
             if (ifElse) {
-                  if (dataTableTriplos[i].operador === 'JUM') {
+                  if (dataTableTriplos[i].operador === 'JMP') {
                         dataTableTriplos[i].DatosFuente = contLi + 1;
                   }
             } else {
-                  if (dataTableTriplos[i].operador === 'JUM') {
+                  if (dataTableTriplos[i].operador === 'JMP') {
                         dataTableTriplos[i].DatosFuente = contLi;
                   }
             }
