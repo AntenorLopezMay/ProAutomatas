@@ -30,7 +30,6 @@ export const AutomatasApp = () => {
             setErrorTable(tablaError);
             let codeEnsam = codigoEnsamblador(triplos);
             setCodeEnsam(codeEnsam);
-            console.log(tablaError);
       }, [programa]);
 
       const GenerarPrograma = () => {
@@ -62,6 +61,18 @@ export const AutomatasApp = () => {
             downloadFile(Sim, "Triplo.txt");
       }
 
+      const GenerarCodeEnsam = () => {
+            let codeEnsamb = '';
+            codeEnsamb = codeEnsam.map((data, index) => {
+                  if (data.operador !== '---') {
+                        return `${data.etiqueta}          ${data.instruccion}        ${data.destino}        ${data.fuente}\n`;
+
+                  }
+            })
+            const Sim = new Blob([codeEnsamb], { type: "text/plain" });
+            downloadFile(Sim, "CodeEnsamblador.txt");
+      }
+
 
       return (
             <div className="container-fluid row mt-3">
@@ -78,6 +89,7 @@ export const AutomatasApp = () => {
                               <button type="button" className="col btn btn-secondary btn-sm" onClick={GenerarPrograma}> Generar Programa</button>
                               <button type="button" className="col btn btn-secondary btn-sm" onClick={() => GenerarTablToken()}>Generar Tabla de token</button>
                               <button type="button" className="row btn btn-secondary btn-sm" onClick={() => GenerarTablTrip()}>Generar Tabla de triplos</button>
+                              <button type="button" className="row btn btn-secondary btn-sm" onClick={() => GenerarCodeEnsam()}>Generar Codigo ensamblador</button>
 
                         </div>
                   </div>
