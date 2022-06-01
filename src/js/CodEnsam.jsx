@@ -11,7 +11,6 @@ export const codigoEnsamblador = (triplos) => {
       generarCodigo(triplos);
       console.table(triplos);
       console.table(array_ensam);
-
       return array_ensam;
 }
 

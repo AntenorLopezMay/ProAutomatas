@@ -401,7 +401,7 @@ const agregarNoLi = () => {
                               } else {
                                     if (ifElse) {
                                           if (dataTableTriplos[i].DatosFuente === 'FALSE') {
-                                                dataTableTriplos[i].operador = finIf;
+                                                dataTableTriplos[i].operador = finIf + 1;
                                           }
                                     } else {
                                           if (dataTableTriplos[i].DatosFuente === 'FALSE') {
