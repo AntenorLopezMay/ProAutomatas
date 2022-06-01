@@ -63,11 +63,12 @@ export const AutomatasApp = () => {
 
       const GenerarCodeEnsam = () => {
             let codeEnsamb = '';
-            codeEnsamb = codeEnsam.map((data, index) => {
+            codeEnsamb = codeEnsam.map((data) => {
+                  let dato = '';
                   if (data.operador !== '---') {
-                        return `${data.etiqueta}          ${data.instruccion}        ${data.destino}        ${data.fuente}\n`;
-
+                        dato = data.etiqueta + '           ' + data.instruccion + '   ' + data.destino + ',' + data.fuente + ';\n';
                   }
+                  return dato;
             })
             const Sim = new Blob([codeEnsamb], { type: "text/plain" });
             downloadFile(Sim, "CodeEnsamblador.txt");
